@@ -33,6 +33,9 @@ def data_quality(df):
         f"""{test_result.result['unexpected_count']} of {test_result.result['element_count']} items""", 
         f"""or {round(test_result.result['unexpected_percent'], 2)}% are not unique: FAILED"""])
     print(f"""{'Column id is unique: PASSED' if test_result.success else failed_msg}""")
+    
+#    validated_df = spark.createDataFrame(raw_test_df)
+    return raw_test_df
 
 def transform(data):
     data_raw= []
@@ -48,12 +51,12 @@ def transform(data):
         })
     
     df = spark.createDataFrame(data_raw)
-    df.show(100)
+    #df.show(100)
 
     return df 
 
-if __name__ == "__main__":
+"""if __name__ == "__main__":
     data = extract.extract_data()
     data_ordered = transform(data)
-    data_quality(data_ordered)
+    data_quality(data_ordered)"""
 

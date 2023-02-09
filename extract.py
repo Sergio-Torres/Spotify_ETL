@@ -2,7 +2,6 @@ from config import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, TOKEN
 import spotipy 
 from spotipy.oauth2 import SpotifyOAuth
 from datetime import datetime, timedelta
-from sqlalchemy import create_engine
 import requests
 import pandas as pd
 
