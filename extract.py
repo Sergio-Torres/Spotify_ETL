@@ -1,4 +1,4 @@
-from config import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, TOKEN
+from config import CLIENT_ID, TOKEN
 import spotipy 
 from spotipy.oauth2 import SpotifyOAuth
 from datetime import datetime, timedelta
