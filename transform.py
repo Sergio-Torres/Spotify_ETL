@@ -55,8 +55,4 @@ def transform(data):
 
     return df 
 
-"""if __name__ == "__main__":
-    data = extract.extract_data()
-    data_ordered = transform(data)
-    data_quality(data_ordered)"""
 
