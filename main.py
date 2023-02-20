@@ -28,16 +28,19 @@ if __name__ == "__main__":
 
         if connection.is_connected():
             cursor = connection.cursor()
+            #create db
             cursor.execute("CREATE DATABASE {0}".format(DB_NAME))
             cursor.execute("USE {0}".format(DB_NAME))
-            print("database is created")  
+            print("Database is created!!")  
             
             try:
                 #create the table and save the data
-                df.to_sql("my_played_tracks", engine)
+                df.to_sql("table_name", engine)
                 print("The table has been created and the data has been successfully!!")
             except:
                 print("This table already exists")
+            
+
             connection.close()
     except Error as err:
         print(f"Error: '{err}'")
