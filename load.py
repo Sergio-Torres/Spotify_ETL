@@ -4,14 +4,22 @@ import transform
 import mysql.connector
 from mysql.connector import Error
 import pandas as pd
+from pyspark.sql import SparkSession
+from pyspark.sql import Row
+import sqlalchemy
+from sqlalchemy.orm import sessionmaker
+
+#spark = SparkSession.builder.appName('SparkByExamples.com').config("spark.jars", "mysql-connector-j_8.0.32-1ubuntu22.10_all.deb").getOrCreate()
 
 if __name__ == "__main__":
     # Extract and transform
     data = extract.extract_data()    
     data_ordered = transform.transform(data)
     validated_df = transform.data_quality(data_ordered)
-#    df = pd.DataFrame(validated_df)
+    #data_rdd = data_ordered.rdd
+    df = data_ordered.toPandas()
     
+    engine = sqlalchemy.create_engine('mysql+pymysql://{0}:{1}@{2}/{3}'.format(USER, PW,HOST_NAME,DB_NAME))
     #DB connection
     try:
         connection = mysql.connector.connect(
@@ -22,11 +30,12 @@ if __name__ == "__main__":
 
         if connection.is_connected():
             cursor = connection.cursor()
-            cursor.execute("CREATE DATABASE {0}".format(DB_NAME))
+            #cursor.execute("CREATE DATABASE {0}".format(DB_NAME))
+            cursor.execute("USE {0}".format(DB_NAME))
             print("database is created")
 
             query = """
-                CREATE TABLE IF NOT EXISTS played_tracks(
+                CREATE TABLE IF NOT EXISTS my_played_tracks(
                 ID INT PRIMARY KEY,
                 song_name VARCHAR(200),
                 artist_name VARCHAR(200),
@@ -34,18 +43,17 @@ if __name__ == "__main__":
                 timestamp VARCHAR(200)
                )
             """
+        
+            cursor.execute(query)
+            print("The table has been created successfully!!")
             
-            for i, row in validated_df.iterrows():
-               cursor.execute("INSERT INTO {0}.played_tracks VALUES (?,?,?,?,?)"
-                       .format(DB_NAME), row.ID, row.song_names, row.artist_names, row.played_at, row.timestamps)
-            connection.commit()
-            cursor.close()
-
-
+            df.to_sql("los_played_tracks", engine)
+            connection.close()
     except Error as err:
         print(f"Error: '{err}'")
     
-    
+ 
+   
     
 """"    engine = ce('mysql+pymysql://{0}:{1}@{2}/{3}'.format(USER, PW,HOST_NAME,DB_NAME))
     conn = mysql.connector.connect(engine)

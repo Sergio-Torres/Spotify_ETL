@@ -34,7 +34,7 @@ def data_quality(df):
         f"""or {round(test_result.result['unexpected_percent'], 2)}% are not unique: FAILED"""])
     print(f"""{'Column id is unique: PASSED' if test_result.success else failed_msg}""")
     
-#    validated_df = spark.createDataFrame(raw_test_df)
+    #validated_df = pd.DataFrame(raw_test_df)
     return raw_test_df
 
 def transform(data):
