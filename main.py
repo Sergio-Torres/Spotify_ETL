@@ -1,3 +1,4 @@
+#load file
 from config import USER, PW, DB_NAME, HOST_NAME
 import extract
 import transform
