@@ -8,7 +8,6 @@ config = configparser.ConfigParser()
 config.read(filename)
 
 #APP
-CLIENT_ID = config.get(section_app, "CLIENT_ID")
 TOKEN = config.get(section_app, "TOKEN")
 
 #DDBB
